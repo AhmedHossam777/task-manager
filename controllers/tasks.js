@@ -4,11 +4,20 @@ const getAllTasks = (req, res, next) => {
   res.send('get all tasks');
 };
 
-const createTask = (req, res, next) => {
-  res.json({
-    status: 'success',
-    data: req.body,
-  });
+const createTask = async (req, res, next) => {
+  try {
+    const task = await Task.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      task,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
 const getTask = (req, res, next) => {
